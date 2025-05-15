@@ -6,7 +6,7 @@ import time
 cap = cv2.VideoCapture(0)
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh()
-nose_tip_index = 1  # nose tip landmark
+nose_tip_index = 1  
 
 ref_x, ref_y = None, None
 
@@ -27,18 +27,18 @@ while True:
         face_landmarks = results.multi_face_landmarks[0]
         h, w, _ = frame.shape
 
-        # Collect all landmark points
+        
         landmark_points = []
         for lm in face_landmarks.landmark:
             x, y = int(lm.x * w), int(lm.y * h)
             landmark_points.append((x, y))
 
-        # Draw bounding box
+       
         x_min, y_min = min(landmark_points, key=lambda p: p[0])[0], min(landmark_points, key=lambda p: p[1])[1]
         x_max, y_max = max(landmark_points, key=lambda p: p[0])[0], max(landmark_points, key=lambda p: p[1])[1]
         cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (255, 0, 0), 2)
 
-        # Nose tip coordinates
+       
         nose = face_landmarks.landmark[nose_tip_index]
         nose_x = int(nose.x * w)
         nose_y = int(nose.y * h)
@@ -69,7 +69,7 @@ while True:
             pyautogui.press('down')
             last_action_time = current_time
 
-        # Draw nose and reference points
+        
         cv2.circle(frame, (nose_x, nose_y), 5, (0, 255, 0), -1)
         cv2.circle(frame, (ref_x, ref_y), 5, (0, 0, 255), -1)
 
